@@ -19,9 +19,11 @@ fi
 iptables -N DOCKER-USER 2>/dev/null || true
 iptables -C FORWARD -j DOCKER-USER 2>/dev/null || iptables -I FORWARD -j DOCKER-USER
 
-# Remove any prior rules of ours so this script is idempotent.
-if iptables -S DOCKER-USER >/dev/null 2>&1; then
-  iptables -S DOCKER-USER | grep -- "-i $BRIDGE" | sed 's/^-A /-D /' | while read -r r; do
+# Idempotency: remove any prior rules of ours. Capture into a variable so
+# grep-no-match doesn't trip pipefail before we get to add the new rules.
+existing=$(iptables -S DOCKER-USER 2>/dev/null | grep -- "-i $BRIDGE" || true)
+if [ -n "$existing" ]; then
+  echo "$existing" | sed 's/^-A /-D /' | while read -r r; do
     # shellcheck disable=SC2086
     iptables $r 2>/dev/null || true
   done
