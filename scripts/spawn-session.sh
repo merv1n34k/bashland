@@ -5,7 +5,7 @@
 set -u
 
 MODE=${1:?usage: spawn-session.sh MODE}
-SESSION_ID=$(uuidgen | cut -c1-8)
+SESSION_ID=$(uuidgen | tr -d - | cut -c1-16)
 LOG=/srv/bashland/logs/sessions.log
 
 printf '%s spawn %s %s\n' "$(date -u +%FT%TZ)" "$MODE" "$SESSION_ID" >>"$LOG"

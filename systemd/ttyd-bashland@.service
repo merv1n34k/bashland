@@ -17,7 +17,6 @@ ExecStart=/usr/local/bin/ttyd \
   --port ${PORT} \
   --interface 127.0.0.1 \
   --writable \
-  --check-origin \
   --max-clients 200 \
   --terminal-type xterm-256color \
   --base-path ${BASE_PATH} \

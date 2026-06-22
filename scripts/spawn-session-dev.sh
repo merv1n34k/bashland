@@ -5,7 +5,7 @@ set -u
 
 MODE=${1:-course}
 REPO=$(cd "$(dirname "$0")/.." && pwd)
-SESSION_ID=$(uuidgen | cut -c1-8)
+SESSION_ID=$(uuidgen | tr -d - | cut -c1-16)
 
 exec docker run --rm -i -t \
   --name "bl-dev-$MODE-$SESSION_ID" \
