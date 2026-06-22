@@ -14,10 +14,18 @@ if ! docker network inspect "$NETWORK" >/dev/null 2>&1; then
     "$NETWORK"
 fi
 
-iptables -S DOCKER-USER | grep -- "-i $BRIDGE" | sed 's/^-A /-D /' | while read -r r; do
-  # shellcheck disable=SC2086
-  iptables $r 2>/dev/null || true
-done
+# Docker normally creates DOCKER-USER on first start, but lazily. Ensure it
+# exists and is referenced from FORWARD before we add anything to it.
+iptables -N DOCKER-USER 2>/dev/null || true
+iptables -C FORWARD -j DOCKER-USER 2>/dev/null || iptables -I FORWARD -j DOCKER-USER
+
+# Remove any prior rules of ours so this script is idempotent.
+if iptables -S DOCKER-USER >/dev/null 2>&1; then
+  iptables -S DOCKER-USER | grep -- "-i $BRIDGE" | sed 's/^-A /-D /' | while read -r r; do
+    # shellcheck disable=SC2086
+    iptables $r 2>/dev/null || true
+  done
+fi
 
 # -I inserts at top. Apply bottom-up so eval order is top-to-bottom as listed:
 #   1. allow return traffic     2. drop lateral / metadata
