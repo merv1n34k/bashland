@@ -1,0 +1,34 @@
+[Unit]
+Description=ttyd web terminal for bashland (spawns one container per WebSocket)
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=ttyd
+Group=ttyd
+SupplementaryGroups=docker
+
+ExecStart=/usr/local/bin/ttyd \
+  --port 7681 \
+  --interface 127.0.0.1 \
+  --writable \
+  --check-origin \
+  --max-clients 200 \
+  --terminal-type xterm-256color \
+  -t titleFixed=BashLand \
+  /opt/bashland/scripts/spawn-session.sh
+
+Restart=always
+RestartSec=2
+LimitNOFILE=65536
+
+ProtectSystem=strict
+ReadWritePaths=/srv/bashland/logs
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

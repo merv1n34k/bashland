@@ -1,0 +1,15 @@
+┌─────────────────────────────────────────────────────────────┐   6098)o%:::%o(860
+│                                                             │   098)o%:::%o(8609
+│   Welcome to BashLand - learn bash & git, hands on.         │    6o%:%o(86098)
+│                                                             │     (86098)o
+│   This session is sandboxed - your changes are wiped        │   6098)o%::%o9
+│   when you close the tab. Refresh for a new shell.          │   098)o%::::::%o9
+│                                                             │    6o%::::::%o(860
+│   For hardcore enthusiasts - https://bashland.org/hard      │       6o%::%o(8609
+│                                                             │         o(86098)
+│   Type your command after the $ prompt, then press ENTER    │     (86098)o%:%o9
+│   to run it.                                                │   6098)o%:::%o(860
+│                                                             │   098)o%:::%o(8609
+│   You're all set - now follow along with your teacher.      │    6o%:%o(86098)
+│                                                             │     (86098)o
+└─────────────────────────────────────────────────────────────┘   6098)o%::%o9

@@ -1,0 +1,32 @@
+name = "bashland"
+
+[defaults]
+profile = "claude"
+model = "sonnet"
+
+# [[mcps]]
+# name = "github"
+# command = "/usr/local/bin/mcp-github"
+# args = ["--token", "$GITHUB_TOKEN"]
+# [mcps.env]
+# KEY = "value"
+
+# [[hooks]]
+# name = "log"
+# event = "OnPostTool"
+# matcher = "tool == 'bash'"
+# script = "log.sh"
+# timeout = 30
+
+[[workers]]
+name = "architect"
+profile = "claude"
+model = "opus"
+# rules = "Focus on backend."
+# refresh = true
+# [workers.env]
+# KEY = "value"
+# [[workers.hooks]]
+# name = "diff"
+# event = "OnPostTool"
+# script = "diff.sh"
