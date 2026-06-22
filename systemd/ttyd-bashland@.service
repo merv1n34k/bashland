@@ -1,8 +1,8 @@
 [Unit]
 Description=ttyd bashland (%i mode)
-After=network-online.target docker.service
+After=network-online.target docker.service bashland-network.service
 Wants=network-online.target
-Requires=docker.service
+Requires=docker.service bashland-network.service
 
 [Service]
 Type=simple

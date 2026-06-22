@@ -19,7 +19,7 @@ apt-get update
 apt-get install -y --no-install-recommends \
   ca-certificates curl gnupg lsb-release rsync uuid-runtime \
   nginx certbot \
-  iptables iptables-persistent
+  iptables
 
 echo "==> docker"
 if ! command -v docker >/dev/null; then
@@ -72,16 +72,15 @@ done
 echo "==> docker image"
 docker build -t bashland-course:latest "$REPO/docker/"
 
-echo "==> docker network + egress filter"
-"$REPO/scripts/network-setup.sh"
-mkdir -p /etc/iptables
-iptables-save >/etc/iptables/rules.v4
-
-echo "==> systemd template"
+echo "==> systemd units"
+install -m 0644 "$REPO/systemd/bashland-network.service" /etc/systemd/system/
 install -m 0644 "$REPO/systemd/ttyd-bashland@.service" /etc/systemd/system/
 # Remove pre-template unit if it lingers from an older install
 rm -f /etc/systemd/system/ttyd-bashland.service
 systemctl daemon-reload
+
+echo "==> docker network + egress filter (oneshot, also runs at boot)"
+systemctl enable --now bashland-network.service
 
 echo "==> nginx stage 1 (HTTP only, for ACME)"
 mkdir -p /var/www/html

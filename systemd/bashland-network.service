@@ -1,0 +1,13 @@
+[Unit]
+Description=bashland docker bridge + container egress filter
+After=docker.service
+Requires=docker.service
+Before=ttyd-bashland@course.service ttyd-bashland@hard.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/opt/bashland/scripts/network-setup.sh
+
+[Install]
+WantedBy=multi-user.target
