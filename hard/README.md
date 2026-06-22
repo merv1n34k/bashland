@@ -1,5 +1,6 @@
-# hard mode
+# welcome
 
-placeholder. drop your harder challenges here — same shape as `course/`:
-files in this directory are bind-mounted into every hard-mode session at
-`/opt/course` and copied to the student's home (except `banner.txt`).
+hard mode. fewer hints, harder problems.
+
+`data/` has the inputs. solve them on your own first. the docs at
+<https://bashland.org/docs> are fair game.
