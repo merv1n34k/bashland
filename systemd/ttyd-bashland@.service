@@ -11,6 +11,7 @@ Group=ttyd
 SupplementaryGroups=docker
 
 EnvironmentFile=/etc/bashland/%i.env
+Environment=HOME=/var/lib/ttyd
 
 ExecStart=/usr/local/bin/ttyd \
   --port ${PORT} \
@@ -28,7 +29,7 @@ RestartSec=2
 LimitNOFILE=65536
 
 ProtectSystem=strict
-ReadWritePaths=/srv/bashland/logs
+ReadWritePaths=/srv/bashland/logs /var/lib/ttyd
 ProtectHome=true
 PrivateTmp=true
 NoNewPrivileges=true

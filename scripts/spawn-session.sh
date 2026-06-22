@@ -21,7 +21,6 @@ exec docker run --rm -i -t \
   --tmpfs /home/student:rw,size=64m,nosuid,nodev,uid=1000,gid=1000,mode=0755 \
   --memory=256m \
   --memory-swap=256m \
-  --memory-swappiness=0 \
   --cpus=0.5 \
   --pids-limit=64 \
   --ulimit nproc=64:64 \

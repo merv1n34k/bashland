@@ -56,6 +56,7 @@ fi
 echo "==> directories"
 install -d -m 0755 /srv/bashland
 install -d -m 0755 -o ttyd -g ttyd /srv/bashland/logs
+install -d -m 0700 -o ttyd -g ttyd /var/lib/ttyd
 for mode in "${MODES[@]}"; do
   install -d -m 0755 "/srv/bashland/$mode"
   if [ -z "$(ls -A "/srv/bashland/$mode" 2>/dev/null)" ]; then

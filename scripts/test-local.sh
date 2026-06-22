@@ -14,7 +14,7 @@ RUN_PROD=(
   --tmpfs /tmp:rw,size=16m,mode=1777
   --tmpfs /run:rw,size=4m
   --tmpfs /var/tmp:rw,size=8m,mode=1777
-  --memory=256m --memory-swap=256m --memory-swappiness=0
+  --memory=256m --memory-swap=256m
   --cpus=0.5 --pids-limit=64
   --ulimit nproc=64:64 --ulimit nofile=256:256 --ulimit fsize=20971520
   --security-opt no-new-privileges --cap-drop=ALL
