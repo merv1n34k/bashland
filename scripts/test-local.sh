@@ -19,7 +19,6 @@ RUN_PROD=(
   --ulimit nproc=64:64 --ulimit nofile=256:256 --ulimit fsize=20971520
   --security-opt no-new-privileges --cap-drop=ALL
   -v "$REPO/course":/opt/course:ro
-  -v "$REPO/banner.txt":/etc/banner.txt:ro
   "$IMG"
 )
 

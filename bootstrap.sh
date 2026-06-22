@@ -11,6 +11,7 @@ EMAIL="${2:?usage: bootstrap.sh DOMAIN EMAIL}"
 
 REPO=$(cd "$(dirname "$0")" && pwd)
 TTYD_VERSION=1.7.7
+MODES=(course hard)
 
 echo "==> apt packages"
 export DEBIAN_FRONTEND=noninteractive
@@ -53,12 +54,20 @@ if ! id ttyd >/dev/null 2>&1; then
 fi
 
 echo "==> directories"
-install -d -m 0755 /srv/bashland /srv/bashland/course
+install -d -m 0755 /srv/bashland
 install -d -m 0755 -o ttyd -g ttyd /srv/bashland/logs
-if [ -z "$(ls -A /srv/bashland/course 2>/dev/null)" ]; then
-  rsync -a "$REPO/course/" /srv/bashland/course/
-fi
-cp "$REPO/banner.txt" /srv/bashland/banner.txt
+for mode in "${MODES[@]}"; do
+  install -d -m 0755 "/srv/bashland/$mode"
+  if [ -z "$(ls -A "/srv/bashland/$mode" 2>/dev/null)" ]; then
+    rsync -a "$REPO/$mode/" "/srv/bashland/$mode/"
+  fi
+done
+
+echo "==> env files"
+install -d -m 0755 /etc/bashland
+for mode in "${MODES[@]}"; do
+  install -m 0644 "$REPO/systemd/$mode.env" "/etc/bashland/$mode.env"
+done
 
 echo "==> docker image"
 docker build -t bashland-course:latest "$REPO/docker/"
@@ -68,8 +77,10 @@ echo "==> docker network + egress filter"
 mkdir -p /etc/iptables
 iptables-save >/etc/iptables/rules.v4
 
-echo "==> systemd unit"
-install -m 0644 "$REPO/systemd/ttyd-bashland.service" /etc/systemd/system/
+echo "==> systemd template"
+install -m 0644 "$REPO/systemd/ttyd-bashland@.service" /etc/systemd/system/
+# Remove pre-template unit if it lingers from an older install
+rm -f /etc/systemd/system/ttyd-bashland.service
 systemctl daemon-reload
 
 echo "==> nginx stage 1 (HTTP only, for ACME)"
@@ -102,12 +113,16 @@ systemctl reload nginx
 echo "==> verify egress filter"
 "$REPO/scripts/verify-egress.sh"
 
-echo "==> start ttyd"
-systemctl enable --now ttyd-bashland
+echo "==> start ttyd (course + hard)"
+for mode in "${MODES[@]}"; do
+  systemctl enable --now "ttyd-bashland@$mode"
+done
 sleep 1
-systemctl status --no-pager ttyd-bashland | head -10
+systemctl status --no-pager 'ttyd-bashland@*' | head -20
 
 echo
-echo "bashland live at https://$DOMAIN"
+echo "bashland live:"
+echo "  course:  https://$DOMAIN/"
+echo "  hard:    https://$DOMAIN/hard"
 echo "session log: /srv/bashland/logs/sessions.log"
 echo "nginx log:   /var/log/nginx/bashland.access.log"

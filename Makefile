@@ -11,24 +11,34 @@ setup:
 	@command -v shfmt      >/dev/null || { echo "missing: shfmt";      exit 1; }
 	@command -v docker     >/dev/null || { echo "missing: docker";     exit 1; }
 
+MODE ?= course
+ifeq ($(MODE),hard)
+  DEV_PORT = 7682
+  DEV_BASE = /hard
+else ifeq ($(MODE),course)
+  DEV_PORT = 7681
+  DEV_BASE = /
+else
+  $(error MODE must be course or hard)
+endif
+
 dev: build
 	docker run --rm -it \
 	  --tmpfs /home/student:rw,size=64m,uid=1000,gid=1000,mode=0755 \
 	  --tmpfs /tmp:rw,size=16m,mode=1777 \
-	  -v $(PWD)/course:/opt/course:ro \
-	  -v $(PWD)/banner.txt:/etc/banner.txt:ro \
-	  -e SESSION_ID=dev \
+	  -v $(PWD)/$(MODE):/opt/course:ro \
+	  -e SESSION_ID=dev -e MODE=$(MODE) \
 	  $(IMAGE)
 
 test-integration: build
 	./scripts/test-local.sh
 
 dev-server: build
-	@echo "==> open http://localhost:7681  (Ctrl-C to stop)"
-	ttyd --port 7681 --interface 0.0.0.0 --writable --max-clients 50 \
-	  --terminal-type xterm-256color \
+	@echo "==> open http://localhost:$(DEV_PORT)$(DEV_BASE)  (Ctrl-C to stop)"
+	ttyd --port $(DEV_PORT) --interface 0.0.0.0 --base-path $(DEV_BASE) \
+	  --writable --max-clients 50 --terminal-type xterm-256color \
 	  -t titleFixed=BashLand \
-	  ./scripts/spawn-session-dev.sh
+	  ./scripts/spawn-session-dev.sh $(MODE)
 
 build:
 	docker build -t $(IMAGE) docker/

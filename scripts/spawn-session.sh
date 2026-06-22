@@ -1,14 +1,18 @@
 #!/bin/bash
+# Called by ttyd-bashland@.service for each WebSocket connection.
+# $1 = mode ("course" or "hard"); the matching /srv/bashland/$1 directory is
+# bind-mounted into the container at /opt/course.
 set -u
 
+MODE=${1:?usage: spawn-session.sh MODE}
 SESSION_ID=$(uuidgen | cut -c1-8)
 LOG=/srv/bashland/logs/sessions.log
 
-printf '%s spawn %s\n' "$(date -u +%FT%TZ)" "$SESSION_ID" >>"$LOG"
-trap 'printf "%s end   %s\n" "$(date -u +%FT%TZ)" "$SESSION_ID" >>"$LOG"' EXIT
+printf '%s spawn %s %s\n' "$(date -u +%FT%TZ)" "$MODE" "$SESSION_ID" >>"$LOG"
+trap 'printf "%s end   %s %s\n" "$(date -u +%FT%TZ)" "$MODE" "$SESSION_ID" >>"$LOG"' EXIT
 
 exec docker run --rm -i -t \
-  --name "bl-$SESSION_ID" \
+  --name "bl-$MODE-$SESSION_ID" \
   --hostname bashland \
   --read-only \
   --tmpfs /tmp:rw,size=16m,nosuid,nodev,mode=1777 \
@@ -29,8 +33,8 @@ exec docker run --rm -i -t \
   --dns=1.1.1.1 --dns=9.9.9.9 \
   --stop-signal=SIGHUP \
   --stop-timeout=2 \
-  -v /srv/bashland/course:/opt/course:ro \
-  -v /srv/bashland/banner.txt:/etc/banner.txt:ro \
+  -v "/srv/bashland/$MODE":/opt/course:ro \
   -e SESSION_ID="$SESSION_ID" \
+  -e MODE="$MODE" \
   -e TERM=xterm-256color \
   bashland-course:latest

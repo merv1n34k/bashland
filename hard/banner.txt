@@ -1,0 +1,10 @@
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│   BashLand - hard mode                                      │
+│                                                             │
+│   no hand-holding here. break it, fix it, learn it.         │
+│                                                             │
+│   same rules as the main session: ephemeral home,           │
+│   refresh wipes everything.                                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘

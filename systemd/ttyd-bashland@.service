@@ -1,5 +1,5 @@
 [Unit]
-Description=ttyd web terminal for bashland (spawns one container per WebSocket)
+Description=ttyd bashland (%i mode)
 After=network-online.target docker.service
 Wants=network-online.target
 Requires=docker.service
@@ -10,15 +10,18 @@ User=ttyd
 Group=ttyd
 SupplementaryGroups=docker
 
+EnvironmentFile=/etc/bashland/%i.env
+
 ExecStart=/usr/local/bin/ttyd \
-  --port 7681 \
+  --port ${PORT} \
   --interface 127.0.0.1 \
   --writable \
   --check-origin \
   --max-clients 200 \
   --terminal-type xterm-256color \
+  --base-path ${BASE_PATH} \
   -t titleFixed=BashLand \
-  /opt/bashland/scripts/spawn-session.sh
+  /opt/bashland/scripts/spawn-session.sh %i
 
 Restart=always
 RestartSec=2
