@@ -21,7 +21,7 @@ ExecStart=/usr/local/bin/ttyd \
   --terminal-type xterm-256color \
   --base-path ${BASE_PATH} \
   -t titleFixed=BashLand \
-  -t fontSize=42 \
+  -t fontSize=21 \
   -t 'theme={"background":"#0e1116","foreground":"#d5dae3","cursor":"#6ee7a1","cursorAccent":"#0e1116"}' \
   /opt/bashland/scripts/spawn-session.sh %i
 
