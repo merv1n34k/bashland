@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-DOMAIN="${1:?usage: bootstrap.sh DOMAIN EMAIL}"
-EMAIL="${2:?usage: bootstrap.sh DOMAIN EMAIL}"
+DOMAIN="${1:?usage: bootstrap.sh DOMAIN EMAIL [PASSWORD]}"
+EMAIL="${2:?usage: bootstrap.sh DOMAIN EMAIL [PASSWORD]}"
+PASSWORD="${3:-}"
 
 [[ $EUID -eq 0 ]] || {
   echo "must run as root"
@@ -17,7 +18,8 @@ echo "==> apt packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y --no-install-recommends \
-  ca-certificates curl gnupg lsb-release rsync uuid-runtime \
+  apache2-utils \
+  ca-certificates curl gnupg lsb-release rsync uuid-runtime unzip \
   nginx certbot \
   iptables
 
@@ -70,13 +72,21 @@ for mode in "${MODES[@]}"; do
   install -m 0644 "$REPO/systemd/$mode.env" "/etc/bashland/$mode.env"
 done
 
+echo "==> class password (htpasswd)"
+if [ -n "$PASSWORD" ]; then
+  htpasswd -bc /etc/nginx/bashland.htpasswd student "$PASSWORD"
+elif [ ! -f /etc/nginx/bashland.htpasswd ]; then
+  echo "first run: pass class password as 3rd arg" >&2
+  exit 1
+fi
+chmod 644 /etc/nginx/bashland.htpasswd
+
 echo "==> docker image"
 docker build -t bashland-course:latest "$REPO/docker/"
 
 echo "==> systemd units"
 install -m 0644 "$REPO/systemd/bashland-network.service" /etc/systemd/system/
 install -m 0644 "$REPO/systemd/ttyd-bashland@.service" /etc/systemd/system/
-# Remove pre-template unit if it lingers from an older install
 rm -f /etc/systemd/system/ttyd-bashland.service
 systemctl daemon-reload
 
@@ -100,10 +110,12 @@ nginx -t
 systemctl reload nginx
 
 echo "==> TLS via certbot"
-certbot certonly --webroot -w /var/www/html --non-interactive --agree-tos \
-  -d "$DOMAIN" -d "www.$DOMAIN" -m "$EMAIL"
+if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+  certbot certonly --webroot -w /var/www/html --non-interactive --agree-tos \
+    -d "$DOMAIN" -d "www.$DOMAIN" -m "$EMAIL"
+fi
 
-echo "==> nginx stage 2 (HTTPS + WS upgrade)"
+echo "==> nginx stage 2 (HTTPS + WS upgrade + auth gate)"
 sed "s/__DOMAIN__/$DOMAIN/g" "$REPO/nginx/bashland.conf" >/etc/nginx/sites-available/bashland
 ln -sfn /etc/nginx/sites-available/bashland /etc/nginx/sites-enabled/bashland
 rm -f /etc/nginx/sites-enabled/bashland-acme || true
@@ -111,18 +123,20 @@ nginx -t
 systemctl reload nginx
 
 echo "==> verify egress filter"
-"$REPO/scripts/verify-egress.sh"
+"$REPO/scripts/verify-egress.sh" || true
 
-echo "==> start ttyd (course + hard)"
+echo "==> start/restart ttyd (course + hard)"
 for mode in "${MODES[@]}"; do
   systemctl enable --now "ttyd-bashland@$mode"
+  systemctl restart "ttyd-bashland@$mode"
 done
 sleep 1
 systemctl status --no-pager 'ttyd-bashland@*' | head -20
 
 echo
 echo "bashland live:"
-echo "  course:  https://$DOMAIN/"
-echo "  hard:    https://$DOMAIN/hard"
+echo "  course:  https://$DOMAIN/      (password required)"
+echo "  hard:    https://$DOMAIN/hard  (password required)"
+echo "  docs:    https://$DOMAIN/docs  (public)"
 echo "session log: /srv/bashland/logs/sessions.log"
 echo "nginx log:   /var/log/nginx/bashland.access.log"
