@@ -26,6 +26,9 @@ ExecStart=/usr/local/bin/ttyd \
 Restart=always
 RestartSec=2
 LimitNOFILE=65536
+LimitNPROC=8192
+TasksMax=8192
+MemoryHigh=2G
 
 ProtectSystem=strict
 ReadWritePaths=/srv/bashland/logs /var/lib/ttyd

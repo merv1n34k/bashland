@@ -14,9 +14,10 @@ RUN_PROD=(
   --tmpfs /tmp:rw,size=16m,mode=1777
   --tmpfs /run:rw,size=4m
   --tmpfs /var/tmp:rw,size=8m,mode=1777
-  --memory=256m --memory-swap=256m
-  --cpus=0.5 --pids-limit=64
-  --ulimit nproc=64:64 --ulimit nofile=256:256 --ulimit fsize=20971520
+  --memory=128m --memory-swap=128m
+  --cpus=0.25 --pids-limit=16
+  --ulimit nproc=16:16 --ulimit nofile=32:32
+  --ulimit fsize=5242880 --ulimit cpu=300
   --security-opt no-new-privileges --cap-drop=ALL
   -v "$REPO/course":/opt/course:ro
   "$IMG"
@@ -45,8 +46,8 @@ check "course README seen" "README.md"     "$(echo "$out" | grep -m1 -E '^README
 # ---- 2. cgroup limits applied ----
 echo "==> limits applied"
 out=$(printf 'cat /sys/fs/cgroup/memory.max; cat /sys/fs/cgroup/pids.max\n' | "${RUN_PROD[@]}" 2>&1)
-check "memory.max" "268435456" "$(echo "$out" | grep -m1 -E '^[0-9]+$')"
-check "pids.max"   "64"        "$(echo "$out" | tail -n1 | tr -d '\r')"
+check "memory.max" "134217728" "$(echo "$out" | grep -m1 -E '^[0-9]+$')"
+check "pids.max"   "16"        "$(echo "$out" | tail -n1 | tr -d '\r')"
 
 # ---- 3. Fork bomb caught by --pids-limit ----
 echo "==> fork bomb"
@@ -55,7 +56,7 @@ echo "==> fork bomb"
 docker run --rm \
   --tmpfs /home/student:rw,size=64m,uid=1000,gid=1000,mode=0755 \
   --tmpfs /tmp:rw,size=16m,mode=1777 \
-  --pids-limit=64 --ulimit nproc=64:64 \
+  --pids-limit=16 --ulimit nproc=16:16 \
   --entrypoint /bin/bash \
   "$IMG" -c 'for i in $(seq 1 200); do sleep 30 & done' >/dev/null 2>&1
 ec=$?
@@ -77,8 +78,8 @@ script='
 '
 out=$(printf '%s\n' "$script" | "${RUN_PROD[@]}" 2>&1)
 size=$(echo "$out" | tail -n1 | tr -d '\r')
-if [[ -n "$size" && "$size" -le 20971520 ]]; then
-  printf "  ok    %-32s %s\n" "fsize cap honored" "got ${size} bytes (<=20MB)"
+if [[ -n "$size" && "$size" -le 5242880 ]]; then
+  printf "  ok    %-32s %s\n" "fsize cap honored" "got ${size} bytes (<=5MB)"
   PASS=$((PASS + 1))
 else
   printf "  FAIL  %-32s got=%s\n" "fsize cap honored" "$size"

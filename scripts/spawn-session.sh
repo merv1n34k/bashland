@@ -1,7 +1,8 @@
 #!/bin/bash
 # Called by ttyd-bashland@.service for each WebSocket connection.
-# $1 = mode ("course" or "hard"); the matching /srv/bashland/$1 directory is
-# bind-mounted into the container at /opt/course.
+# $1 = mode ("course" or "hard"); selects the matching /srv/bashland/$mode bind.
+# Resource caps are identical for both modes — hard mode is harder *content*,
+# not a bigger sandbox.
 set -u
 
 MODE=${1:?usage: spawn-session.sh MODE}
@@ -19,13 +20,17 @@ exec docker run --rm -i -t \
   --tmpfs /run:rw,size=4m,nosuid,nodev \
   --tmpfs /var/tmp:rw,size=8m,nosuid,nodev,mode=1777 \
   --tmpfs /home/student:rw,size=64m,nosuid,nodev,uid=1000,gid=1000,mode=0755 \
-  --memory=256m \
-  --memory-swap=256m \
-  --cpus=0.5 \
-  --pids-limit=64 \
-  --ulimit nproc=64:64 \
-  --ulimit nofile=256:256 \
-  --ulimit fsize=20971520 \
+  --memory=128m \
+  --memory-swap=128m \
+  --cpus=0.25 \
+  --cpu-period=100000 \
+  --pids-limit=16 \
+  --ulimit nproc=16:16 \
+  --ulimit nofile=32:32 \
+  --ulimit fsize=5242880 \
+  --ulimit cpu=300 \
+  --blkio-weight=100 \
+  --oom-score-adj=1000 \
   --security-opt no-new-privileges \
   --cap-drop=ALL \
   --network=bashland-egress \
