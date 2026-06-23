@@ -1,0 +1,632 @@
+[
+  {
+    "category": "Bash",
+    "name": "pwd",
+    "syntax": "pwd [-P]",
+    "desc": "Print the current working directory. -P resolves symlinks to the physical path.",
+    "example": "pwd"
+  },
+  {
+    "category": "Bash",
+    "name": "ls",
+    "syntax": "ls [-a] [-l] [-h] [-R] [-t] [-S] [path]",
+    "desc": "List directory contents. -a shows dotfiles, -l long format, -h human sizes, -R recursive, -t/-S sort by mtime/size.",
+    "example": "ls -lah"
+  },
+  {
+    "category": "Bash",
+    "name": "cd",
+    "syntax": "cd [path]",
+    "desc": "Change directory. No arg goes home; - goes to the previous directory; .. goes up one level.",
+    "example": "cd ~/projects"
+  },
+  {
+    "category": "Bash",
+    "name": "tree",
+    "syntax": "tree [-L <depth>] [-a] [-d] [-h] [path]",
+    "desc": "Recursive directory listing. -L limits depth, -a includes hidden files, -d only directories, -h human sizes.",
+    "example": "tree -L 2 -h"
+  },
+  {
+    "category": "Bash",
+    "name": "mkdir",
+    "syntax": "mkdir [-p] <dir>",
+    "desc": "Create a directory. -p makes intermediate directories and ignores existing ones.",
+    "example": "mkdir -p src/lib/util"
+  },
+  {
+    "category": "Bash",
+    "name": "touch",
+    "syntax": "touch [-a] <file>",
+    "desc": "Create an empty file, or update its modification time. -a updates only the access time.",
+    "example": "touch notes.txt"
+  },
+  {
+    "category": "Bash",
+    "name": "cat",
+    "syntax": "cat <file> [<file> ...]",
+    "desc": "Print one or more files to stdout. Multiple files are concatenated in order.",
+    "example": "cat header.txt body.txt > out.txt"
+  },
+  {
+    "category": "Bash",
+    "name": "less",
+    "syntax": "less [+<line>] [+F] <file>",
+    "desc": "Pager: scroll, search with /word, follow with +F. Quit with q. Better than `more` for most needs.",
+    "example": "less +F /var/log/syslog"
+  },
+  {
+    "category": "Bash",
+    "name": "more",
+    "syntax": "more [+<line>] <file>  |  <cmd> | more",
+    "desc": "Page-by-page viewer. Older and simpler than less; usually prefer less.",
+    "example": "ls -l /etc | more"
+  },
+  {
+    "category": "Bash",
+    "name": "head",
+    "syntax": "head [-n <N>] <file>",
+    "desc": "Print the first N lines of a file (default 10).",
+    "example": "head -n 20 data.csv"
+  },
+  {
+    "category": "Bash",
+    "name": "tail",
+    "syntax": "tail [-n <N>] [-f] <file>",
+    "desc": "Print the last N lines. -f follows the file as it grows - useful for logs.",
+    "example": "tail -f app.log"
+  },
+  {
+    "category": "Bash",
+    "name": "cp",
+    "syntax": "cp [-r] [-p] [-i] <src> <dst>",
+    "desc": "Copy files or directories. -r recursive; -p preserves mode/mtime/owner; -i prompts before overwrite.",
+    "example": "cp -r src/ backup/"
+  },
+  {
+    "category": "Bash",
+    "name": "mv",
+    "syntax": "mv [-i] <src> <dst>",
+    "desc": "Move or rename a file or directory. -i prompts before overwriting an existing destination.",
+    "example": "mv draft.md README.md"
+  },
+  {
+    "category": "Bash",
+    "name": "rm",
+    "syntax": "rm [-r] [-f] [-i] <path>",
+    "desc": "Delete files. -r recurses into directories, -f forces (no prompts), -i prompts before each delete.",
+    "example": "rm -rf build/"
+  },
+  {
+    "category": "Bash",
+    "name": "ln -s",
+    "syntax": "ln -s <target> <name>",
+    "desc": "Create a symbolic link pointing to target.",
+    "example": "ln -s /usr/local/bin/python3 python"
+  },
+  {
+    "category": "Bash",
+    "name": "chmod",
+    "syntax": "chmod [-R] <mode> <path>",
+    "desc": "Change file permissions. Octal: 644 = rw-r--r--, 755 = rwxr-xr-x. Symbolic: +x, u+w, g-r, a-w.",
+    "example": "chmod +x deploy.sh"
+  },
+  {
+    "category": "Bash",
+    "name": "chown",
+    "syntax": "chown [-R] <user>[:<group>] <path>",
+    "desc": "Change file owner and optionally group. -R recurses.",
+    "example": "chown -R alice:staff project/"
+  },
+  {
+    "category": "Bash",
+    "name": "sudo",
+    "syntax": "sudo <cmd>  |  sudo su  |  sudo visudo",
+    "desc": "Run a command as another user (default root). `sudo su` becomes root shell; `sudo visudo` edits the sudoers file safely.",
+    "example": "sudo apt-get update"
+  },
+  {
+    "category": "Bash",
+    "name": "file",
+    "syntax": "file <path>",
+    "desc": "Guess the type of a file by inspecting its bytes.",
+    "example": "file archive.tar.gz"
+  },
+  {
+    "category": "Bash",
+    "name": "df",
+    "syntax": "df [-h] [-T] [-i]",
+    "desc": "Show disk-space usage per filesystem. -h human-readable, -T includes filesystem type, -i shows inode usage.",
+    "example": "df -h"
+  },
+  {
+    "category": "Bash",
+    "name": "gzip / gunzip",
+    "syntax": "gzip [-k] <file>  |  gunzip [-k] <file.gz>",
+    "desc": "Compress or decompress .gz files. -k keeps the original (otherwise it is removed).",
+    "example": "gzip -k reads.fastq"
+  },
+  {
+    "category": "Bash",
+    "name": "zcat",
+    "syntax": "zcat <file.gz> [...]",
+    "desc": "Print a gzip-compressed file to stdout without decompressing it on disk.",
+    "example": "zcat reads.fastq.gz | head"
+  },
+  {
+    "category": "Bash",
+    "name": "tar",
+    "syntax": "tar [-c|-x|-t] [-z] [-v] -f <archive> [files]",
+    "desc": "Create (-c), extract (-x), or list (-t) archives. -z adds gzip, -v is verbose, -f names the archive.",
+    "example": "tar -czvf project.tar.gz project/"
+  },
+  {
+    "category": "Bash",
+    "name": "redirect",
+    "syntax": "cmd > file  |  cmd >> file  |  cmd 2> err  |  cmd &> all",
+    "desc": "Redirect output streams. > overwrites stdout, >> appends, 2> sends stderr, &> sends both.",
+    "example": "make build &> build.log"
+  },
+  {
+    "category": "Bash",
+    "name": "pipe",
+    "syntax": "cmd1 | cmd2 | cmd3",
+    "desc": "Send stdout of one command as stdin of the next. Chain as many as you like.",
+    "example": "ps aux | grep nginx | wc -l"
+  },
+  {
+    "category": "Bash",
+    "name": "wc",
+    "syntax": "wc [-l] [-w] [-c] [-L] <file>",
+    "desc": "Count lines (-l), words (-w), bytes (-c), or longest-line length (-L).",
+    "example": "wc -l *.py"
+  },
+  {
+    "category": "Bash",
+    "name": "grep",
+    "syntax": "grep [-i] [-v] [-r] [-n] [-E] [-w] [--color] <pattern> <file>",
+    "desc": "Print lines matching a pattern. -i ignore case, -v invert, -r recurse, -n line numbers, -E extended regex, -w whole word.",
+    "example": "grep -rn 'TODO' src/"
+  },
+  {
+    "category": "Bash",
+    "name": "sort",
+    "syntax": "sort [-r] [-n] [-u] [-t <sep>] [-k <field>] <file>",
+    "desc": "Sort lines. -r reverse, -n numeric, -u unique, -t/-k for column-aware sorts.",
+    "example": "sort -t, -k2 -n data.csv"
+  },
+  {
+    "category": "Bash",
+    "name": "uniq",
+    "syntax": "uniq [-c] [-d] [-u]",
+    "desc": "Drop consecutive duplicate lines - usually after sort. -c prefixes counts.",
+    "example": "sort access.log | uniq -c | sort -rn"
+  },
+  {
+    "category": "Bash",
+    "name": "cut",
+    "syntax": "cut -d<sep> -f<fields> <file>  |  cut -c<range> <file>",
+    "desc": "Pick columns by delimiter (-f) or by character position (-c).",
+    "example": "cut -d, -f1,3 people.csv"
+  },
+  {
+    "category": "Bash",
+    "name": "tr",
+    "syntax": "tr <set1> <set2>  |  tr -d <set>  |  tr -s <set>",
+    "desc": "Translate characters. -d deletes a set; -s squeezes repeats into one.",
+    "example": "echo HELLO | tr A-Z a-z"
+  },
+  {
+    "category": "Bash",
+    "name": "sed",
+    "syntax": "sed [-i] 's/<re>/<replacement>/[g]' <file>  |  sed -n '<A>,<B>p'  |  sed '<N>d'",
+    "desc": "Stream editor. g replaces all per line; -i edits in place; A,Bp prints a range; Nd deletes line N.",
+    "example": "sed -i 's/localhost/example.com/g' config.toml"
+  },
+  {
+    "category": "Bash",
+    "name": "awk",
+    "syntax": "awk [-F<sep>] '<pattern> { <action> }' <file>",
+    "desc": "Per-line mini-language. Fields are $1..$N; NR is line number. Use END {} for summaries.",
+    "example": "awk -F, '$3 > 100 {sum += $3} END {print sum}' sales.csv"
+  },
+  {
+    "category": "Bash",
+    "name": "xargs",
+    "syntax": "<cmd> | xargs [-n <N>] <target>",
+    "desc": "Turn stdin lines into arguments to a command. -n controls how many per call.",
+    "example": "find . -name '*.bak' | xargs rm"
+  },
+  {
+    "category": "Bash",
+    "name": "find",
+    "syntax": "find <path> [-name <glob>] [-type f|d] [-size +<N>M] [-mtime -<N>]",
+    "desc": "Recursively search the filesystem by name, type, size, mtime, etc.",
+    "example": "find . -type f -name '*.log' -mtime -7"
+  },
+  {
+    "category": "Bash",
+    "name": "locate",
+    "syntax": "locate <pattern>  |  sudo updatedb",
+    "desc": "Fast filename search against a prebuilt index. `updatedb` refreshes it.",
+    "example": "locate '*.pdf'"
+  },
+  {
+    "category": "Bash",
+    "name": "echo",
+    "syntax": "echo [-e] <string>",
+    "desc": "Print arguments to stdout. -e enables backslash escapes. Double quotes expand $VAR and $(...); single quotes don't.",
+    "example": "echo -e \"line1\\nline2\""
+  },
+  {
+    "category": "Bash",
+    "name": "history",
+    "syntax": "history [<N>]  |  !!  |  !<prefix>  |  !<N>",
+    "desc": "Show shell history. !! repeats last command; !grep repeats most recent grep; !42 repeats line 42.",
+    "example": "sudo !!"
+  },
+  {
+    "category": "Bash",
+    "name": "alias",
+    "syntax": "alias <name>='<cmd>'  |  unalias <name>",
+    "desc": "Define a shortcut for a command. Add to ~/.bashrc to persist.",
+    "example": "alias ll='ls -lah'"
+  },
+  {
+    "category": "Bash",
+    "name": "source",
+    "syntax": "source <file>  |  . <file>",
+    "desc": "Run a script in the current shell so its variables and functions persist.",
+    "example": "source ~/.bashrc"
+  },
+  {
+    "category": "Bash",
+    "name": "whoami",
+    "syntax": "whoami",
+    "desc": "Print the current effective user name.",
+    "example": "whoami"
+  },
+  {
+    "category": "Bash",
+    "name": "which",
+    "syntax": "which <cmd>",
+    "desc": "Print the full path of an executable in $PATH.",
+    "example": "which python3"
+  },
+  {
+    "category": "Bash",
+    "name": "type",
+    "syntax": "type <cmd>",
+    "desc": "Tell whether a name is a shell builtin, alias, function, or external file.",
+    "example": "type cd"
+  },
+  {
+    "category": "Bash",
+    "name": "man",
+    "syntax": "man <cmd>  |  man -k <term>",
+    "desc": "Open the manual page for a command. -k searches summaries by keyword.",
+    "example": "man -k pdf"
+  },
+  {
+    "category": "Bash",
+    "name": "ps",
+    "syntax": "ps  |  ps aux  |  ps -eF  |  ps -p <pid>",
+    "desc": "Show running processes. `ps aux` is the classic full-system view.",
+    "example": "ps aux | grep nginx"
+  },
+  {
+    "category": "Bash",
+    "name": "top",
+    "syntax": "top  |  top -u <user>",
+    "desc": "Live process monitor: CPU, memory, uptime. Press q to quit.",
+    "example": "top"
+  },
+  {
+    "category": "Bash",
+    "name": "kill",
+    "syntax": "kill [-9] <pid>",
+    "desc": "Send a signal to a process. Default is SIGTERM (graceful). -9 is SIGKILL (force).",
+    "example": "kill -9 12345"
+  },
+  {
+    "category": "Bash",
+    "name": "comm",
+    "syntax": "comm [-1] [-2] [-3] <fileA> <fileB>",
+    "desc": "Compare two sorted files. Three columns: only A, only B, in both. Suppress columns with -1/-2/-3.",
+    "example": "comm -12 sorted_a.txt sorted_b.txt"
+  },
+  {
+    "category": "Bash",
+    "name": "ssh",
+    "syntax": "ssh [-i <key>] <user>@<host>",
+    "desc": "Open a secure shell on a remote host. -i picks an explicit private key.",
+    "example": "ssh -i ~/.ssh/id_ed25519 ubuntu@server.example.com"
+  },
+  {
+    "category": "Bash",
+    "name": "wget",
+    "syntax": "wget [-c] [-r] [--limit-rate=<r>] <url>",
+    "desc": "Download files over HTTP(S). -c resumes a partial download, -r recurses, --limit-rate caps bandwidth.",
+    "example": "wget -c https://example.com/big.tar.gz"
+  },
+  {
+    "category": "Bash",
+    "name": "curl",
+    "syntax": "curl [-fsS] [-L] [-o <file>] <url>",
+    "desc": "HTTP client. -f fails on errors, -s silent, -S show errors anyway, -L follow redirects, -o write to file.",
+    "example": "curl -fsSL https://example.com/install.sh | bash"
+  },
+  {
+    "category": "Bash",
+    "name": "Ctrl-C",
+    "syntax": "Ctrl-C",
+    "desc": "Send SIGINT to the foreground process - interrupt and stop it.",
+    "example": "Ctrl-C"
+  },
+  {
+    "category": "Bash",
+    "name": "Ctrl-Z",
+    "syntax": "Ctrl-Z  |  fg %<N>  |  bg %<N>",
+    "desc": "Suspend the foreground job. Resume with fg (foreground) or bg (background).",
+    "example": "Ctrl-Z   bg %1"
+  },
+  {
+    "category": "Bash",
+    "name": "Ctrl-R",
+    "syntax": "Ctrl-R",
+    "desc": "Reverse incremental search of shell history. Type to filter, Enter to run, Ctrl-R again for older matches.",
+    "example": "Ctrl-R"
+  },
+  {
+    "category": "Bash",
+    "name": "Tab",
+    "syntax": "Tab",
+    "desc": "Autocomplete commands, file names, and arguments. Press twice to list possible completions.",
+    "example": "git che<Tab>"
+  },
+  {
+    "category": "Git",
+    "name": "git init",
+    "syntax": "git init [dir]",
+    "desc": "Initialize a new git repository in the current directory (or in dir).",
+    "example": "git init my-project"
+  },
+  {
+    "category": "Git",
+    "name": "git clone",
+    "syntax": "git clone <url> [dir]",
+    "desc": "Copy a remote repo to your machine.",
+    "example": "git clone https://github.com/merv1n34k/bashland.git"
+  },
+  {
+    "category": "Git",
+    "name": "git status",
+    "syntax": "git status [-s]",
+    "desc": "Show what's changed since the last commit. -s for short form.",
+    "example": "git status -s"
+  },
+  {
+    "category": "Git",
+    "name": "git add",
+    "syntax": "git add <path>  |  git add .  |  git add -p",
+    "desc": "Stage changes for the next commit. -p stages hunks interactively.",
+    "example": "git add src/main.py"
+  },
+  {
+    "category": "Git",
+    "name": "git commit",
+    "syntax": "git commit -m \"<msg>\"  |  git commit -am \"<msg>\"  |  git commit --amend",
+    "desc": "Record staged changes. -a auto-stages modified files; --amend rewrites the last commit.",
+    "example": "git commit -m \"feat: add login endpoint\""
+  },
+  {
+    "category": "Git",
+    "name": "git log",
+    "syntax": "git log [--oneline] [--graph] [--all] [-p] [-- <path>]",
+    "desc": "Show commit history. --oneline + --graph + --all is the classic overview.",
+    "example": "git log --oneline --graph --all"
+  },
+  {
+    "category": "Git",
+    "name": "git diff",
+    "syntax": "git diff  |  git diff --staged  |  git diff <a>..<b>",
+    "desc": "Show changes. No args = unstaged. --staged = what's staged. a..b = between revisions.",
+    "example": "git diff --staged"
+  },
+  {
+    "category": "Git",
+    "name": "git show",
+    "syntax": "git show [<rev>]  |  git show <rev>:<path>",
+    "desc": "Show a commit (message + diff) or a single file at a given revision.",
+    "example": "git show HEAD~2"
+  },
+  {
+    "category": "Git",
+    "name": "git blame",
+    "syntax": "git blame <file>",
+    "desc": "Show which commit and author last touched each line.",
+    "example": "git blame README.md"
+  },
+  {
+    "category": "Git",
+    "name": "git restore",
+    "syntax": "git restore [--staged] <file>",
+    "desc": "Discard unstaged changes. With --staged, unstage but keep working tree changes.",
+    "example": "git restore --staged src/auth.py"
+  },
+  {
+    "category": "Git",
+    "name": "git reset",
+    "syntax": "git reset [--soft|--hard] <rev>",
+    "desc": "Move HEAD to <rev>. Default keeps working tree. --hard wipes uncommitted changes. Destructive.",
+    "example": "git reset --hard HEAD~1"
+  },
+  {
+    "category": "Git",
+    "name": "git revert",
+    "syntax": "git revert <rev>",
+    "desc": "Create a new commit that undoes <rev>. Safe in shared branches.",
+    "example": "git revert HEAD"
+  },
+  {
+    "category": "Git",
+    "name": "git branch",
+    "syntax": "git branch [-a]  |  git branch <name>  |  git branch -d <name>",
+    "desc": "List, create, or delete branches. -a lists remotes too.",
+    "example": "git branch -a"
+  },
+  {
+    "category": "Git",
+    "name": "git switch",
+    "syntax": "git switch <branch>  |  git switch -c <new>",
+    "desc": "Move between branches. -c creates a new branch first.",
+    "example": "git switch -c feature/login"
+  },
+  {
+    "category": "Git",
+    "name": "git merge",
+    "syntax": "git merge <branch>  |  git merge --abort",
+    "desc": "Merge another branch into the current one. --abort bails out of a conflicted merge.",
+    "example": "git merge feature/login"
+  },
+  {
+    "category": "Git",
+    "name": "git rebase",
+    "syntax": "git rebase <upstream>  |  git rebase -i HEAD~<N>",
+    "desc": "Replay commits on top of another base. -i lets you reorder, squash, or edit.",
+    "example": "git rebase -i HEAD~3"
+  },
+  {
+    "category": "Git",
+    "name": "git fetch",
+    "syntax": "git fetch [--prune]",
+    "desc": "Download remote refs without merging. --prune drops branches deleted on the remote.",
+    "example": "git fetch --prune"
+  },
+  {
+    "category": "Git",
+    "name": "git pull",
+    "syntax": "git pull [--rebase]",
+    "desc": "Fetch and merge upstream into the current branch. --rebase replays your commits on top.",
+    "example": "git pull --rebase"
+  },
+  {
+    "category": "Git",
+    "name": "git push",
+    "syntax": "git push [-u <remote> <branch>]  |  git push --force-with-lease",
+    "desc": "Send commits to a remote. -u sets upstream so future pushes don't need args.",
+    "example": "git push -u origin main"
+  },
+  {
+    "category": "Git",
+    "name": "git stash",
+    "syntax": "git stash  |  git stash pop  |  git stash list",
+    "desc": "Set aside uncommitted changes. pop restores them and drops the stash.",
+    "example": "git stash; git pull --rebase; git stash pop"
+  },
+  {
+    "category": "Git",
+    "name": "git tag",
+    "syntax": "git tag <name>  |  git tag -a <name> -m \"<msg>\"",
+    "desc": "Mark a commit. -a creates an annotated tag with metadata.",
+    "example": "git tag -a v1.0 -m \"release 1.0\""
+  },
+  {
+    "category": "Git",
+    "name": "git reflog",
+    "syntax": "git reflog",
+    "desc": "History of everywhere HEAD has pointed. Use it to recover commits you thought were lost.",
+    "example": "git reflog | head"
+  },
+  {
+    "category": "Git",
+    "name": "git cherry-pick",
+    "syntax": "git cherry-pick <rev>",
+    "desc": "Apply a single commit from elsewhere onto the current branch.",
+    "example": "git cherry-pick abc1234"
+  },
+  {
+    "category": "Git",
+    "name": "git config",
+    "syntax": "git config [--global] <key> <value>",
+    "desc": "Set git options. --global puts them in ~/.gitconfig.",
+    "example": "git config --global user.email \"you@example.com\""
+  },
+  {
+    "category": "Bio",
+    "name": "samtools view",
+    "syntax": "samtools view [-b] [-S] <file>",
+    "desc": "Print alignments from a SAM/BAM file. -b outputs BAM.",
+    "example": "samtools view -b reads.sam > reads.bam"
+  },
+  {
+    "category": "Bio",
+    "name": "samtools sort",
+    "syntax": "samtools sort [-o <out>] <in>",
+    "desc": "Coordinate-sort a BAM file (required for indexing).",
+    "example": "samtools sort -o sorted.bam reads.bam"
+  },
+  {
+    "category": "Bio",
+    "name": "samtools index",
+    "syntax": "samtools index <sorted.bam>",
+    "desc": "Build a .bai index for a coordinate-sorted BAM.",
+    "example": "samtools index sorted.bam"
+  },
+  {
+    "category": "Bio",
+    "name": "samtools flagstat",
+    "syntax": "samtools flagstat <bam>",
+    "desc": "Summary stats: total reads, mapped, properly paired, duplicates.",
+    "example": "samtools flagstat sorted.bam"
+  },
+  {
+    "category": "Bio",
+    "name": "bcftools view",
+    "syntax": "bcftools view <vcf>",
+    "desc": "Print variants from a VCF/BCF file.",
+    "example": "bcftools view -h variants.vcf"
+  },
+  {
+    "category": "Bio",
+    "name": "bcftools stats",
+    "syntax": "bcftools stats <vcf>",
+    "desc": "Per-sample variant statistics.",
+    "example": "bcftools stats variants.vcf"
+  },
+  {
+    "category": "Bio",
+    "name": "bedtools intersect",
+    "syntax": "bedtools intersect -a <A.bed> -b <B.bed>",
+    "desc": "Find intervals in A overlapping any in B.",
+    "example": "bedtools intersect -a peaks.bed -b genes.bed"
+  },
+  {
+    "category": "Bio",
+    "name": "bedtools merge",
+    "syntax": "bedtools merge -i <sorted.bed>",
+    "desc": "Merge overlapping or adjacent intervals.",
+    "example": "bedtools merge -i sorted.bed"
+  },
+  {
+    "category": "Bio",
+    "name": "seqkit stats",
+    "syntax": "seqkit stats <fasta|fastq>",
+    "desc": "Summary stats for FASTA/FASTQ: counts, length distribution, N50.",
+    "example": "seqkit stats reads.fastq.gz"
+  },
+  {
+    "category": "Bio",
+    "name": "seqkit grep",
+    "syntax": "seqkit grep [-r] -p <id> <fasta>",
+    "desc": "Extract sequences by ID. -r treats -p as a regex.",
+    "example": "seqkit grep -p chr1 genome.fa"
+  },
+  {
+    "category": "Bio",
+    "name": "seqkit seq",
+    "syntax": "seqkit seq [-m <minlen>] [-M <maxlen>] [-r] [--rna2dna]",
+    "desc": "Filter/transform sequences. -m/-M filter by length, -r reverse-complement.",
+    "example": "seqkit seq -m 200 reads.fa > long.fa"
+  }
+]

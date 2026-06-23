@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BashLand Reference</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>bashland reference</h1>
+    <div class="spacer"></div>
+
+    <div class="search-row">
+      <span class="prompt">&gt;</span>
+      <input id="q" type="search" placeholder="pwd" autocomplete="off" autofocus>
+    </div>
+    <div id="meta"></div>
+
+    <ul id="results"></ul>
+    <p id="empty" hidden>no matches.</p>
+  </main>
+
+  <template id="card">
+    <li class="card">
+      <div class="head">
+        <span class="name"></span>
+        <span class="cat"></span>
+      </div>
+      <code class="syntax"></code>
+      <p class="desc"></p>
+      <pre class="ex" hidden></pre>
+    </li>
+  </template>
+
+  <script src="search.js" defer></script>
+</body>
+</html>
