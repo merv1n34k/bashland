@@ -23,7 +23,6 @@ exec docker run --rm -i -t \
   --memory=128m \
   --memory-swap=128m \
   --cpus=0.25 \
-  --cpu-period=100000 \
   --pids-limit=16 \
   --ulimit nproc=16:16 \
   --ulimit nofile=32:32 \
