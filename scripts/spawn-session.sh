@@ -1,14 +1,41 @@
 #!/bin/bash
 # Called by ttyd-bashland@.service for each WebSocket connection.
-# $1 = mode ("course" or "hard"); selects the matching /srv/bashland/$mode bind.
-# Resource caps are identical for both modes — hard mode is harder *content*,
-# not a bigger sandbox.
+# $1 = mode ("course" or "hard"); selects the matching /srv/bashland/$mode bind
+# AND the per-mode resource caps below. Hard mode gets more headroom because
+# the report-style analysis tasks chew more memory/CPU than the guided intro.
 set -u
 
 MODE=${1:?usage: spawn-session.sh MODE}
 SESSION_ID=$(uuidgen | tr -d - | cut -c1-16)
 LOG=/srv/bashland/logs/sessions.log
 MAX_CONCURRENT=150
+
+case "$MODE" in
+  course)
+    MEMORY=256m
+    TMPFS_HOME=128m
+    CPUS=0.25
+    PIDS_LIMIT=24
+    ULIMIT_NPROC=24
+    ULIMIT_NOFILE=64
+    ULIMIT_FSIZE=20971520    # 20 MB
+    ULIMIT_CPU=600           # 10 min
+    ;;
+  hard)
+    MEMORY=384m
+    TMPFS_HOME=192m
+    CPUS=0.4
+    PIDS_LIMIT=32
+    ULIMIT_NPROC=32
+    ULIMIT_NOFILE=128
+    ULIMIT_FSIZE=33554432    # 32 MB
+    ULIMIT_CPU=900           # 15 min
+    ;;
+  *)
+    echo "unknown mode: $MODE" >&2
+    exit 1
+    ;;
+esac
 
 # Global capacity check: count live bashland containers (labelled).
 running=$(docker ps -q --filter "label=bashland.mode" 2>/dev/null | wc -l)
@@ -26,28 +53,32 @@ fi
 printf '%s spawn %s %s\n' "$(date -u +%FT%TZ)" "$MODE" "$SESSION_ID" >>"$LOG"
 trap 'printf "%s end   %s %s\n" "$(date -u +%FT%TZ)" "$MODE" "$SESSION_ID" >>"$LOG"' EXIT
 
+# Note: --read-only + --security-opt no-new-privileges are NOT set so that
+# `sudo apt-get ...` (whitelisted in /etc/sudoers.d/student-apt) actually
+# works. Containment still comes from: minimal cap allowlist, network egress
+# filter, memory/pid/fsize ulimits, --rm wipe on disconnect.
 exec docker run --rm -i -t \
   --name "bl-$MODE-$SESSION_ID" \
   --label "bashland.mode=$MODE" \
   --label "bashland.session=$SESSION_ID" \
   --hostname bashland \
-  --read-only \
-  --tmpfs /tmp:rw,size=16m,nosuid,nodev,mode=1777 \
-  --tmpfs /run:rw,size=4m,nosuid,nodev \
-  --tmpfs /var/tmp:rw,size=8m,nosuid,nodev,mode=1777 \
-  --tmpfs /home/student:rw,size=64m,nosuid,nodev,uid=1000,gid=1000,mode=0755 \
-  --memory=128m \
-  --memory-swap=128m \
-  --cpus=0.25 \
-  --pids-limit=16 \
-  --ulimit nproc=16:16 \
-  --ulimit nofile=32:32 \
-  --ulimit fsize=5242880 \
-  --ulimit cpu=300 \
+  --tmpfs /tmp:rw,size=32m,nosuid,nodev,mode=1777 \
+  --tmpfs /run:rw,size=8m,nosuid,nodev \
+  --tmpfs /var/tmp:rw,size=16m,nosuid,nodev,mode=1777 \
+  --tmpfs "/home/student:rw,size=${TMPFS_HOME},nosuid,nodev,uid=1000,gid=1000,mode=0755" \
+  --memory="$MEMORY" \
+  --memory-swap="$MEMORY" \
+  --cpus="$CPUS" \
+  --pids-limit="$PIDS_LIMIT" \
+  --ulimit "nproc=${ULIMIT_NPROC}:${ULIMIT_NPROC}" \
+  --ulimit "nofile=${ULIMIT_NOFILE}:${ULIMIT_NOFILE}" \
+  --ulimit "fsize=${ULIMIT_FSIZE}" \
+  --ulimit "cpu=${ULIMIT_CPU}" \
   --blkio-weight=100 \
   --oom-score-adj=1000 \
-  --security-opt no-new-privileges \
   --cap-drop=ALL \
+  --cap-add=CHOWN --cap-add=DAC_OVERRIDE --cap-add=FOWNER --cap-add=FSETID \
+  --cap-add=SETUID --cap-add=SETGID --cap-add=SETPCAP \
   --network=bashland-egress \
   --dns=1.1.1.1 --dns=9.9.9.9 \
   --stop-signal=SIGHUP \

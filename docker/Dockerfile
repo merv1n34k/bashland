@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       nano \
       perl \
       samtools \
+      sudo \
       tmux \
       tree \
       util-linux \
@@ -30,7 +31,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* /etc/motd /etc/update-motd.d/* \
   && (userdel -r ubuntu 2>/dev/null || true) \
   && useradd -m -u 1000 -s /bin/bash student \
-  && rm -rf /home/student
+  && rm -rf /home/student \
+  && echo 'student ALL=(root) NOPASSWD: /usr/bin/apt-get *' > /etc/sudoers.d/student-apt \
+  && chmod 0440 /etc/sudoers.d/student-apt
 
 # uv (Astral) + seqkit binaries. Combined into one RUN to keep layers minimal.
 RUN set -eux; \
