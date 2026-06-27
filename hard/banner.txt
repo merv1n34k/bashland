@@ -2,7 +2,9 @@
 │                                                             │
 │   BashLand - hard mode                                      │
 │                                                             │
-│   no hand-holding here. break it, fix it, learn it.         │
+│   no hand-holding. clone the task, do the work, submit it.  │
+│                                                             │
+│   git clone https://github.com/merv1n34k/bashland-hard      │
 │                                                             │
 │   same rules as the main session: ephemeral home,           │
 │   refresh wipes everything.                                 │
