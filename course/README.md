@@ -1,7 +1,10 @@
-# welcome
+Synechocystis sp. PCC 6803.
+NCBI assembly: GCF_000009725.
 
-your instructor is teaching from this terminal. follow along.
+count its proteins.
+list the psbA family.
+list the ribosomal proteins.
+extract every protein id.
 
-`data/` has the files you'll need during the session.
-
-stuck? raise your hand. closing the tab wipes everything — that's by design.
+report.md.
+clean git history.

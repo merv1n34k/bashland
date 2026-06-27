@@ -27,7 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       tree \
       util-linux \
       vim-tiny \
-      wget \
   && rm -rf /var/lib/apt/lists/* /etc/motd /etc/update-motd.d/* \
   && (userdel -r ubuntu 2>/dev/null || true) \
   && useradd -m -u 1000 -s /bin/bash student \
