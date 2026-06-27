@@ -111,3 +111,8 @@ Three branches:
 Students discover the branch structure themselves, peek at `report`,
 then `git merge --no-ff report` into main to bring the template in
 and do the analysis. `true_answers.md` is gitignored.
+
+
+## License
+
+Distributed under MIT license, see `LICENSE` for more.
