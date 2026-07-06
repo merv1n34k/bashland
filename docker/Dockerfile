@@ -27,12 +27,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       tree \
       util-linux \
       vim-tiny \
-  && rm -rf /var/lib/apt/lists/* /etc/motd /etc/update-motd.d/* \
   && (userdel -r ubuntu 2>/dev/null || true) \
   && useradd -m -u 1000 -s /bin/bash student \
   && rm -rf /home/student \
   && echo 'student ALL=(root) NOPASSWD: /usr/bin/apt-get *' > /etc/sudoers.d/student-apt \
   && chmod 0440 /etc/sudoers.d/student-apt
+
+# Restore man pages, docs, and locales that the minimal base image strips.
+# `unminimize` removes /etc/dpkg/dpkg.cfg.d/excludes and reinstalls every
+# package with its documentation. Runs interactively otherwise -> pipe yes.
+RUN yes | unminimize \
+  && rm -rf /var/lib/apt/lists/* /etc/motd /etc/update-motd.d/*
 
 # uv (Astral) + seqkit binaries. Combined into one RUN to keep layers minimal.
 RUN set -eux; \
