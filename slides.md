@@ -22,31 +22,33 @@ style: |
 
 <!-- _class: lead -->
 
-# BashLand
+# BashLand Course
+
+*Prepared by: Oleksii Stroganov*
 
 A 4-hour intensive on bash & git
 using a real bioinformatics dataset
 
 ---
 
-<!-- _class: lead -->
-
-# Hi, I'm your instructor
+# Oleksii Stroganov, BSc.
 
 <br>
 
-**[placeholder — instructor: a few words about yourself here.
-who you are, why you love bash & git, one sentence about the research
-you use them for]**
+- Junior Biotechnologist at YURiA-PHARM
+- Maintainer of multiple open-source projects on GitHub
+- Interests: Metabolic engineering, $\LaTeX$, pharmaceutical
+platform development
 
 ---
 
-## What a computer actually is
+## What is really a computer?
 
 You use a computer through **windows, icons, and clicks** — the
-graphical interface, GUI.
+Graphical User Interface, GUI.
 
-The GUI is not the computer.
+But it is not the computer.
+
 It's one **friendly, opinionated wrapper** over the real thing.
 
 Someone decided:
@@ -68,62 +70,80 @@ computer directly. You type what you want, the computer does it.
 - no menu decided what's possible — everything is
 - no click was tracked — just your keystrokes
 
-Today you'll leave the GUI behind and speak to the machine directly.
+Today you'll leave the GUI behind and learn the commands of computer magic.
 
 ---
 
-## Two kinds of instructions
+## What can you control?
 
-Today you'll learn two languages:
+Today you'll learn two types of spells:
 
 <br>
 
-| **bash** | **git** |
+| **Transform reality** | **Travel through time** |
 | :---: | :---: |
-| instructions that **drift reality** | instructions that **travel through time** |
-| do it now: create, move, delete | snapshot the past, jump between versions |
-| the *present* | the *history* |
+| BASH — your main language | Git — when you need to work with time |
+| *Create, Edit, Delete, Control* | *Clone, Snapshot, Diverge, Recover* |
+| Any data you have | Any git repository |
 
 <br>
 
 Both are text. Both live in the same shell.
-Together they cover 90% of what a working scientist or engineer types
-in a day.
+Together they cover 90% of what a working scientist or engineer does in a day.
 
 ---
 
-## What you will leave with
+## Why do you need to learn it?
+
+It makes you stronger.
 
 <br>
 
-By the end of today you can:
+But seriously, by the end of today you can:
 
-1. **navigate and control** any Linux/Mac shell
-2. **track your files** and their changes with git
-3. **fetch, inspect, and process** a real biological dataset
-4. **write a short report** and commit it as part of a clean git
-   history
+1. Know the foundations of Bash & Git.
+2. Understand how to work in a common Linux/macOS environment.
+3. **fetch, inspect, and process** a real biological dataset.
+4. Make your project **version-controlled**.
+5. **Write a short report** to track your progress.
+6. Learn how to connect to external servers.
 
 <br>
 
-You will not be a bash wizard by dinner. You will be someone who can
-sit down at any terminal and not panic.
+You will be someone who can sit down at any terminal and not panic.
 
 ---
 
-## For hardcore enthusiasts
+## Course prep
 
-If you finish early, or if today is too gentle, there is a
-**hard mode** you can attempt any time:
-
-<br>
-
-    https://bashland.org/hard
+To start with the course, let's first prepare. You will need a browser
+tab pointed at the right URL:
 
 <br>
 
-A separate task in a real GitHub repository, no hand-holding, more
-sophisticated git workflow. Come back to it after the class.
+| **For all participants** | **Hardcore enthusiasts** |
+| :---: | :---: |
+| <https://bashland.org/> | <https://bashland.org/hard> |
+| guided intensive | open challenge, separate task repo |
+
+---
+
+## Login
+
+Both are password-protected. Grab your key:
+
+- **login:** `student`
+- **password:** `BashLand2026!`
+
+<br>
+
+*Before typing: switch keyboard layout to **English** and make sure
+**Caps Lock** is off.*
+
+<br>
+
+For a command reference during the day (no login needed):
+<https://bashland.org/docs>
 
 ---
 
@@ -144,9 +164,9 @@ knows how to make.
 
 ---
 
-## What is a FASTA file?
+## What exactly are we analyzing? FASTA.
 
-A plain-text format for **DNA, RNA, or protein sequences**.
+FASTA is a plain-text format for **DNA, RNA, or protein sequences**.
 
 ```
 >WP_010871214.1 photosystem II q(b) protein [Synechocystis]
@@ -169,9 +189,9 @@ That last fact is the trick to counting.
 
 <!-- _class: lead -->
 
-# Part 1 — bash basics
+# Part 1 — Transform reality
 
-instructions that drift reality
+your first spells in bash
 
 ---
 
@@ -188,7 +208,7 @@ You see something like:
 ```
 
 That's your **home directory**. Everything you make today lives here.
-Refresh the browser tab and everything is wiped.
+Refresh the browser tab and everything is *poof* — gone.
 
 ---
 
@@ -201,19 +221,22 @@ ls -la             # also hidden files (start with .)
 ```
 
 The `-l` and `-a` are **flags**. Flags modify a command.
-Almost every command has a `--help` flag:
+
+Every command has a helper spell:
 
 ```
 ls --help
 ```
+
+Read it. It (almost) never lies.
 
 ---
 
 ## Move around
 
 ```
-mkdir work         # make a directory
-cd work            # go into it
+mkdir work         # summon a directory
+cd work            # step into it
 pwd                # confirm
 
 cd ..              # up one level
@@ -238,7 +261,7 @@ cat organism.txt             # show contents
 ```
 
 - `>` **overwrites** a file
-- `>>` **appends**
+- `>>` **appends** to it
 
 These little arrows are the workhorse of the whole shell.
 
@@ -262,13 +285,13 @@ Try `cat README.md` now — the task for today is written there.
 
 <!-- _class: lead -->
 
-# Part 2 — git intro
+# Part 2 — Travel through time
 
-instructions that travel through time
+meet git
 
 ---
 
-## Why version control?
+## Why git?
 
 - **undo** any mistake, all the way back
 - see **what changed** and when
@@ -333,7 +356,17 @@ git log --oneline
 
 <!-- _class: lead -->
 
-# Part 3 — fetch the data
+# Break
+
+**20 minutes**
+
+*Stretch, water, refill your mana.*
+
+---
+
+<!-- _class: lead -->
+
+# Part 3 — Fetch the data
 
 grep meets wget
 
@@ -345,7 +378,7 @@ You already saw the task with `cat README.md`.
 Somewhere in there is a **URL** — the location of the Synechocystis
 protein FASTA on NCBI.
 
-Rule of thumb for the whole day:
+Rule of the day:
 
 > **never type a long URL by hand.**
 
@@ -361,7 +394,7 @@ If a computer put it in a file, ask the computer to read it back.
 grep https README.md
 ```
 
-That shows every line containing "https" — the URL lines.
+Every line containing "https" — the URL lines.
 
 Now extract *just* the URL, no surrounding text:
 
@@ -370,13 +403,13 @@ grep -o 'https://[^ ]*' README.md
 ```
 
 - `-o` = **only** the matching part
-- `[^ ]*` = any characters except a space (= the URL only)
+- `[^ ]*` = any characters except a space (= the URL alone)
 
 ---
 
-## Use grep's output as wget's input
+## Feed grep's output into wget
 
-Store it in a variable:
+Save it into a variable:
 
 ```
 URL=$(grep -o 'https://[^ ]*\.faa\.gz' README.md)
@@ -390,27 +423,27 @@ Now use it:
 wget "$URL"
 ```
 
-**Zero typing of the long URL.** The computer read it, remembered it,
+**Zero manual typing.** The computer read it, remembered it, and
 handed it to `wget`.
 
 ---
 
 ## Install what you need with sudo
 
-You'll notice `wget` might not be there yet:
+You might notice `wget` isn't installed yet:
 
 ```
 wget: command not found
 ```
 
-Install it — the shell knows the trick:
+Install it:
 
 ```
 sudo apt-get update
 sudo apt-get install -y wget
 ```
 
-`sudo` runs a single command as **root** (the administrator).
+`sudo` runs a single command as **root** — the administrator.
 Here it's locked to `apt-get` only. Try `sudo cat` — it refuses.
 
 ---
@@ -448,14 +481,13 @@ git commit -m "ignore raw FASTA"
 git status                # clean, even with the big file present
 ```
 
-`.gitignore` = one pattern per line. Files matching are hidden from
-git commands.
+`.gitignore` = one pattern per line. Files matching are invisible to git.
 
 ---
 
 <!-- _class: lead -->
 
-# Part 4 — the analysis
+# Part 4 — The analysis
 
 more grep, plus pipes, cut, tr, seqkit
 
@@ -480,19 +512,19 @@ Your first real number. Write it down for the report.
 
 ## Chain commands with pipes
 
-`|` sends the output of one command as the input of the next.
+`|` sends the output of one command as input to the next.
 
 ```
 grep "^>" synechocystis.faa | grep -i ribosom | head
 ```
 
-Left to right:
+Read it left to right:
 
 1. keep header lines
 2. of those, keep the ones mentioning "ribosom" (case-insensitive)
 3. show the first 10
 
-This is the shape of most bash work: **short tools chained together.**
+This is the shape of most bash work: **short tools, chained together.**
 
 ---
 
@@ -505,16 +537,36 @@ grep "^>" synechocystis.faa | grep -i ribosom > ribosomal.txt
 wc -l ribosomal.txt
 ```
 
-Commit as you go:
+Then commit as you go:
 
 ```
 git add ribosomal.txt
 git commit -m "ribosomal list"
 ```
 
-Try the same for psbA. You may hit a **naming gotcha** — the RefSeq
-annotation labels it *photosystem II q(b) protein*. Real biology, not
-a bash problem.
+One command per pipe stage. One commit per finding.
+
+---
+
+## The psbA gotcha
+
+psbA — the classic photosystem II reaction-center protein. Search for it:
+
+```
+grep "^>" synechocystis.faa | grep -i psba
+```
+
+**Zero hits.** RefSeq labels it *photosystem II q(b) protein*.
+
+Broaden the search:
+
+```
+grep "^>" synechocystis.faa | grep -i "photosystem ii" > psba.txt
+git add psba.txt
+git commit -m "psba family attempt"
+```
+
+Real biology, not a bash problem.
 
 ---
 
@@ -526,7 +578,7 @@ echo "apple,banana,cherry" | cut -d, -f2,3      # banana,cherry
 ```
 
 - `-d` = delimiter
-- `-f` = field(s)
+- `-f` = which field(s)
 
 A FASTA header's ID is the **first space-separated word**:
 
@@ -558,15 +610,15 @@ grep "^>" synechocystis.faa \
   > all_ids.txt
 
 wc -l all_ids.txt
-head all_ids.txt
+
+git add all_ids.txt
+git commit -m "all protein ids"
 ```
 
 1. keep header lines
 2. keep only the first word (ID with `>`)
 3. drop the `>`
-4. save to file
-
-Commit it.
+4. save to file, commit
 
 ---
 
@@ -618,7 +670,112 @@ git commit -m "first draft of report"
 
 <!-- _class: lead -->
 
-# Part 5 — wrap up
+# Part 5 — SSH
+
+connect to a remote machine
+
+---
+
+## What is SSH?
+
+**S**ecure **Sh**ell — the standard way to open a shell on a remote
+computer over the internet.
+
+- encrypted end-to-end
+- authenticated (password or key)
+- works from any OS
+
+<br>
+
+Today's playground server:
+
+- **host:** `35.184.182.150`
+- **username:** anything you like (try your first name)
+- **password:** `qwerty`
+
+---
+
+## SSH on **Windows**
+
+Windows 10 (1809+) and Windows 11 include OpenSSH by default.
+
+Open **PowerShell** or **Command Prompt**:
+
+```
+ssh <name>@35.184.182.150
+```
+
+If it says "command not found":
+
+**Settings** → **Apps** → **Optional features** → **Add a feature**
+→ search **OpenSSH Client** → install.
+
+Or grab **PuTTY** (putty.org) — GUI alternative.
+
+---
+
+## SSH on **macOS**
+
+macOS ships with OpenSSH. Open **Terminal.app**
+(`Applications` → `Utilities` → `Terminal`).
+
+```
+ssh <name>@35.184.182.150
+```
+
+That's it. No install needed.
+
+<br>
+
+Tip: iTerm2 (iterm2.com) is a nicer terminal. Optional.
+
+---
+
+## SSH on **Linux**
+
+You almost certainly already have it. Test:
+
+```
+which ssh
+```
+
+If missing (rare):
+
+```
+sudo apt-get install -y openssh-client   # Debian, Ubuntu
+sudo dnf install -y openssh-clients      # Fedora
+```
+
+Connect:
+
+```
+ssh <name>@35.184.182.150
+```
+
+---
+
+## First connection
+
+The first time you connect:
+
+```
+The authenticity of host '35.184.182.150' can't be established.
+ED25519 key fingerprint is SHA256:xxxxx.
+Are you sure you want to continue connecting? (yes/no)
+```
+
+Type `yes` and Enter. The server is remembered so you get warned if it
+ever changes.
+
+Then enter the password: `qwerty`
+
+To disconnect later: type `exit`.
+
+---
+
+<!-- _class: lead -->
+
+# Appendix — Wrap up
 
 what "done" looks like
 
@@ -661,139 +818,40 @@ git merge try-photo     # bring it in
 ```
 
 Branches let you try ideas without disturbing what works.
+A parallel timeline. When you like the outcome, merge it back.
 
 ---
 
-## Where students trip
+## Want to keep practicing?
 
-- **`sudo bash` or `sudo cat` fails** — `sudo` here is locked to
-  `apt-get`. By design.
-- **forgetting `^` in `grep`** — you match inside sequence bodies
-  instead of headers. Slow, wrong.
-- **`grep -i psba` returns 0** — annotation says "q(b) protein". A
-  naming gotcha, not a bash bug.
-- **`git add .` after downloading the FASTA** — commits the FASTA.
-  Fix: `.gitignore`.
-- **closing the tab wipes everything** — refresh = new container.
+Keep the terminal alive on your own machine.
 
----
+- **Windows** — install **WSL** (Windows Subsystem for Linux):
 
-## Resources
+  ```
+  wsl --install
+  ```
 
-<br>
+  A real Ubuntu shell inside Windows.
 
-- **command reference**: <https://bashland.org/docs>
-- **harder challenge**: <https://bashland.org/hard>
-- **source & docs**: <https://github.com/merv1n34k/bashland>
-- **hard mode task**: <https://github.com/merv1n34k/bashland-hard>
+- **macOS** — you already have Terminal.app. Same tools.
+
+- **Linux** — you know.
 
 <br>
 
-Questions? Good.
+Everything you learned today works there.
 
 ---
 
 <!-- _class: lead -->
 
-# Appendix — SSH
-
-not part of BashLand, but useful when you have your own server
-
----
-
-## What is SSH?
-
-**S**ecure **Sh**ell — the standard way to open a shell on a remote
-computer over the internet.
-
-- encrypted end-to-end
-- authenticated (password or key)
-- works from any OS
+# Thank you!
 
 <br>
 
-Placeholder server for the demo:
-
-```
-203.0.113.42
-```
-
-(real IP will be shared separately.)
-
----
-
-## SSH on **Windows**
-
-Windows 10 (1809+) and Windows 11 include OpenSSH by default.
-
-Open **PowerShell** or **Command Prompt**:
-
-```
-ssh user@203.0.113.42
-```
-
-If "command not found":
-
-**Settings** → **Apps** → **Optional features** → **Add a feature**
-→ search **OpenSSH Client** → install.
-
-Or use **PuTTY** (putty.org) — GUI alternative.
-
----
-
-## SSH on **macOS**
-
-macOS ships with OpenSSH. Open **Terminal.app**
-(`Applications` → `Utilities` → `Terminal`).
-
-```
-ssh user@203.0.113.42
-```
-
-That's it. No install needed.
+*You may no longer be afraid of the terminal.*
 
 <br>
 
-Tip: iTerm2 (iterm2.com) is a nicer terminal. Optional.
-
----
-
-## SSH on **Linux**
-
-You almost certainly already have it. Test:
-
-```
-which ssh
-```
-
-If missing (rare):
-
-```
-sudo apt-get install -y openssh-client   # Debian, Ubuntu
-sudo dnf install -y openssh-clients      # Fedora
-```
-
-Connect:
-
-```
-ssh user@203.0.113.42
-```
-
----
-
-## First connection
-
-The first time you connect you'll see:
-
-```
-The authenticity of host '203.0.113.42' can't be established.
-ED25519 key fingerprint is SHA256:xxxxx.
-Are you sure you want to continue connecting? (yes/no)
-```
-
-Type `yes` and Enter. Server is remembered so it warns you if it ever
-changes.
-
-Then enter your password.
-
-To disconnect later: type `exit`.
+![w:220](assets/bash-logo.svg)
