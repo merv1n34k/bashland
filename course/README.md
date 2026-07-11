@@ -15,8 +15,8 @@ reporting a bioinformatics analysis.      у складанні звіту з б
    repository.                               і git-репозиторій.
 
 2. Fetch the Synechocystis sp. PCC 6803   2. Завантажити білковий FASTA
-   protein FASTA from NCBI (assembly         для Synechocystis sp. PCC 6803 з
-   GCF_000009725.1).                         NCBI (збірка GCF_000009725.1).
+   protein FASTA from NCBI (URL below).      для Synechocystis sp. PCC 6803 з
+                                             NCBI (URL нижче).
 
 3. Count proteins, find specific          3. Підрахувати білки, знайти
    families (psbA, ribosomal), extract       конкретні родини (psbA, рибо-
@@ -28,6 +28,19 @@ reporting a bioinformatics analysis.      у складанні звіту з б
 
 5. Commit your work cleanly, with the     5. Зберегти прогрес роботи, без
    raw FASTA gitignored.                     зайвих FASTA файлів у `.gitignore`.
+
+
+## Data / Дані
+
+
+Protein FASTA (Synechocystis sp. PCC 6803, assembly GCF_000009725.1):
+
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/725/GCF_000009725.1_ASM972v1/GCF_000009725.1_ASM972v1_protein.faa.gz
+
+Extract it and download in two commands:
+
+    URL=$(grep -o 'https://[^ ]*\.faa\.gz' README.md)
+    wget "$URL"
 
 
 ## Resources                              ## Ресурси
