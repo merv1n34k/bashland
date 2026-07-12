@@ -8,28 +8,28 @@ set -u
 MODE=${1:?usage: spawn-session.sh MODE}
 SESSION_ID=$(uuidgen | tr -d - | cut -c1-16)
 LOG=/srv/bashland/logs/sessions.log
-MAX_CONCURRENT=150
+MAX_CONCURRENT=400
 
 case "$MODE" in
   course)
-    MEMORY=256m
-    TMPFS_HOME=128m
+    MEMORY=192m
+    TMPFS_HOME=96m
     CPUS=0.25
-    PIDS_LIMIT=24
-    ULIMIT_NPROC=24
-    ULIMIT_NOFILE=64
+    PIDS_LIMIT=20
+    ULIMIT_NPROC=20
+    ULIMIT_NOFILE=256
     ULIMIT_FSIZE=20971520    # 20 MB
-    ULIMIT_CPU=600           # 10 min
+    ULIMIT_CPU=3600          # 60 min
     ;;
   hard)
-    MEMORY=384m
-    TMPFS_HOME=192m
+    MEMORY=256m
+    TMPFS_HOME=128m
     CPUS=0.4
     PIDS_LIMIT=32
     ULIMIT_NPROC=32
-    ULIMIT_NOFILE=128
+    ULIMIT_NOFILE=512
     ULIMIT_FSIZE=33554432    # 32 MB
-    ULIMIT_CPU=900           # 15 min
+    ULIMIT_CPU=5400          # 90 min
     ;;
   *)
     echo "unknown mode: $MODE" >&2

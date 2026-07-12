@@ -17,7 +17,7 @@ ExecStart=/usr/local/bin/ttyd \
   --port ${PORT} \
   --interface 127.0.0.1 \
   --writable \
-  --max-clients 200 \
+  --max-clients 500 \
   --terminal-type xterm-256color \
   --base-path ${BASE_PATH} \
   -t titleFixed=BashLand \
@@ -28,9 +28,9 @@ ExecStart=/usr/local/bin/ttyd \
 Restart=always
 RestartSec=2
 LimitNOFILE=65536
-LimitNPROC=8192
-TasksMax=8192
-MemoryHigh=2G
+LimitNPROC=16384
+TasksMax=16384
+MemoryHigh=4G
 
 ProtectSystem=strict
 ReadWritePaths=/srv/bashland/logs /var/lib/ttyd

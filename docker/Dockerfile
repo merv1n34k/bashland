@@ -33,10 +33,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && echo 'student ALL=(root) NOPASSWD: /usr/bin/apt-get *' > /etc/sudoers.d/student-apt \
   && chmod 0440 /etc/sudoers.d/student-apt
 
-# Restore man pages, docs, and locales that the minimal base image strips.
-# `unminimize` removes /etc/dpkg/dpkg.cfg.d/excludes and reinstalls every
-# package with its documentation. Runs interactively otherwise -> pipe yes.
-RUN yes | unminimize \
+# Selectively restore man pages for the tools students will actually use.
+# Much slimmer than full `unminimize` (which reinstalls every package with
+# every locale + doc). We just remove the dpkg exclude and reinstall the
+# handful of packages whose man pages matter for a bash intensive.
+RUN rm -f /etc/dpkg/dpkg.cfg.d/excludes \
+  && apt-get update \
+  && apt-get install -y --reinstall --no-install-recommends \
+       bash coreutils util-linux findutils \
+       grep sed gawk gzip tar less \
+       nano vim-tiny git manpages \
   && rm -rf /var/lib/apt/lists/* /etc/motd /etc/update-motd.d/*
 
 # uv (Astral) + seqkit binaries. Combined into one RUN to keep layers minimal.
