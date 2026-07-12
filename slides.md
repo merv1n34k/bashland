@@ -137,13 +137,17 @@ Both are password-protected. Grab your key:
 
 <br>
 
-*Before typing: switch keyboard layout to **English** and make sure
-**Caps Lock** is off.*
+*Before typing: keyboard on **English**, **Caps Lock** off.*
+
+**Copy / paste:** **Ctrl + Shift + C** / **Ctrl + Shift + V**
+*(macOS: **⌘ C** / **⌘ V**)*
+
+**Autocomplete:** press **Tab** while typing — the shell finishes
+file and command names for you. Use it constantly.
 
 <br>
 
-For a command reference during the day (no login needed):
-<https://bashland.org/docs>
+Command reference (no login): <https://bashland.org/docs>
 
 ---
 
@@ -264,6 +268,26 @@ cat organism.txt             # show contents
 - `>>` **appends** to it
 
 These little arrows are the workhorse of the whole shell.
+
+---
+
+## Move, copy, remove
+
+```
+cp organism.txt backup.txt   # copy
+mv backup.txt notes.md       # move (or rename — same thing)
+rm notes.md                  # remove — no trash bin, no undo
+```
+
+For whole directories, add `-r` (recursive):
+
+```
+cp -r work backup            # copy whole directory
+rm -r old_dir                # remove whole directory
+```
+
+`rm` is final. The shell has no recycle bin. Think before you press
+Enter.
 
 ---
 
@@ -449,6 +473,8 @@ Here it's locked to `apt-get` only. Try `sudo cat` — it refuses.
 ---
 
 ## Unpack the data
+
+`.gz` = a **compressed** file. Smaller download, unpack before reading.
 
 ```
 ls -lh                    # ~700 KB, compressed .gz
@@ -672,7 +698,8 @@ git commit -m "first draft of report"
 
 # Part 5 — SSH
 
-connect to a remote machine
+how to reach a remote machine
+*(reference — try it after class)*
 
 ---
 
@@ -687,11 +714,11 @@ computer over the internet.
 
 <br>
 
-Today's playground server:
+Basic form:
 
-- **host:** `192.168.194.102`
-- **username:** anything you like (try your first name)
-- **password:** `BashLand2026!`
+```
+ssh <username>@<host>
+```
 
 ---
 
@@ -702,7 +729,7 @@ Windows 10 (1809+) and Windows 11 include OpenSSH by default.
 Open **PowerShell** or **Command Prompt**:
 
 ```
-ssh <name>@192.168.194.102
+ssh <username>@<host>
 ```
 
 If it says "command not found":
@@ -720,7 +747,7 @@ macOS ships with OpenSSH. Open **Terminal.app**
 (`Applications` → `Utilities` → `Terminal`).
 
 ```
-ssh <name>@192.168.194.102
+ssh <username>@<host>
 ```
 
 That's it. No install needed.
@@ -749,7 +776,7 @@ sudo dnf install -y openssh-clients      # Fedora
 Connect:
 
 ```
-ssh <name>@192.168.194.102
+ssh <username>@<host>
 ```
 
 ---
@@ -759,7 +786,7 @@ ssh <name>@192.168.194.102
 The first time you connect:
 
 ```
-The authenticity of host '192.168.194.102' can't be established.
+The authenticity of host '<host>' can't be established.
 ED25519 key fingerprint is SHA256:xxxxx.
 Are you sure you want to continue connecting? (yes/no)
 ```
@@ -767,7 +794,7 @@ Are you sure you want to continue connecting? (yes/no)
 Type `yes` and Enter. The server is remembered so you get warned if it
 ever changes.
 
-Then enter the password: `qwerty`
+Then enter the password when prompted.
 
 To disconnect later: type `exit`.
 
