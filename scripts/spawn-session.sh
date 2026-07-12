@@ -15,8 +15,7 @@ case "$MODE" in
     MEMORY=192m
     TMPFS_HOME=96m
     CPUS=0.25
-    PIDS_LIMIT=20
-    ULIMIT_NPROC=20
+    PIDS_LIMIT=32
     ULIMIT_NOFILE=256
     ULIMIT_FSIZE=20971520    # 20 MB
     ULIMIT_CPU=3600          # 60 min
@@ -25,8 +24,7 @@ case "$MODE" in
     MEMORY=256m
     TMPFS_HOME=128m
     CPUS=0.4
-    PIDS_LIMIT=32
-    ULIMIT_NPROC=32
+    PIDS_LIMIT=48
     ULIMIT_NOFILE=512
     ULIMIT_FSIZE=33554432    # 32 MB
     ULIMIT_CPU=5400          # 90 min
@@ -70,7 +68,6 @@ exec docker run --rm -i -t \
   --memory-swap="$MEMORY" \
   --cpus="$CPUS" \
   --pids-limit="$PIDS_LIMIT" \
-  --ulimit "nproc=${ULIMIT_NPROC}:${ULIMIT_NPROC}" \
   --ulimit "nofile=${ULIMIT_NOFILE}:${ULIMIT_NOFILE}" \
   --ulimit "fsize=${ULIMIT_FSIZE}" \
   --ulimit "cpu=${ULIMIT_CPU}" \

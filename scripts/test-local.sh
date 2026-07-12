@@ -15,8 +15,8 @@ RUN_PROD=(
   --tmpfs /run:rw,size=8m
   --tmpfs /var/tmp:rw,size=16m,mode=1777
   --memory=192m --memory-swap=192m
-  --cpus=0.25 --pids-limit=20
-  --ulimit nproc=20:20 --ulimit nofile=256:256
+  --cpus=0.25 --pids-limit=32
+  --ulimit nofile=256:256
   --ulimit fsize=20971520 --ulimit cpu=3600
   --cap-drop=ALL --cap-add=CHOWN --cap-add=DAC_OVERRIDE --cap-add=FOWNER
   --cap-add=FSETID --cap-add=SETUID --cap-add=SETGID --cap-add=SETPCAP
@@ -48,7 +48,7 @@ check "course README seen" "README.md"     "$(echo "$out" | grep -m1 -E '^README
 echo "==> limits applied"
 out=$(printf 'cat /sys/fs/cgroup/memory.max; cat /sys/fs/cgroup/pids.max\n' | "${RUN_PROD[@]}" 2>&1)
 check "memory.max" "201326592" "$(echo "$out" | grep -m1 -E '^[0-9]+$')"
-check "pids.max"   "20"        "$(echo "$out" | tail -n1 | tr -d '\r')"
+check "pids.max"   "32"        "$(echo "$out" | tail -n1 | tr -d '\r')"
 
 # ---- 3. Fork bomb caught by --pids-limit ----
 echo "==> fork bomb"
@@ -57,7 +57,7 @@ echo "==> fork bomb"
 docker run --rm \
   --tmpfs /home/student:rw,size=64m,uid=1000,gid=1000,mode=0755 \
   --tmpfs /tmp:rw,size=16m,mode=1777 \
-  --pids-limit=20 --ulimit nproc=20:20 \
+  --pids-limit=32 \
   --entrypoint /bin/bash \
   "$IMG" -c 'for i in $(seq 1 200); do sleep 30 & done' >/dev/null 2>&1
 ec=$?
