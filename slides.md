@@ -689,9 +689,9 @@ computer over the internet.
 
 Today's playground server:
 
-- **host:** `35.184.182.150`
+- **host:** `192.168.194.102`
 - **username:** anything you like (try your first name)
-- **password:** `qwerty`
+- **password:** `BashLand2026!`
 
 ---
 
@@ -702,7 +702,7 @@ Windows 10 (1809+) and Windows 11 include OpenSSH by default.
 Open **PowerShell** or **Command Prompt**:
 
 ```
-ssh <name>@35.184.182.150
+ssh <name>@192.168.194.102
 ```
 
 If it says "command not found":
@@ -720,7 +720,7 @@ macOS ships with OpenSSH. Open **Terminal.app**
 (`Applications` → `Utilities` → `Terminal`).
 
 ```
-ssh <name>@35.184.182.150
+ssh <name>@192.168.194.102
 ```
 
 That's it. No install needed.
@@ -749,7 +749,7 @@ sudo dnf install -y openssh-clients      # Fedora
 Connect:
 
 ```
-ssh <name>@35.184.182.150
+ssh <name>@192.168.194.102
 ```
 
 ---
@@ -759,7 +759,7 @@ ssh <name>@35.184.182.150
 The first time you connect:
 
 ```
-The authenticity of host '35.184.182.150' can't be established.
+The authenticity of host '192.168.194.102' can't be established.
 ED25519 key fingerprint is SHA256:xxxxx.
 Are you sure you want to continue connecting? (yes/no)
 ```
