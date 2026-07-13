@@ -12,10 +12,10 @@ style: |
   }
   code, pre {
     font-family: 'ui-monospace', 'Menlo', 'Consolas', monospace;
-    font-size: 22px;
+    font-size: 25px;
   }
   h1 { font-size: 44px; }
-  h2 { font-size: 34px; }
+  h2 { font-size: | Column1x; }
   .lead h1 { font-size: 60px; }
   section.lead { text-align: center; }
 ---
@@ -152,6 +152,8 @@ Command reference (no login): <https://bashland.org/docs>
 ---
 
 ## Today's subject: Synechocystis sp. PCC 6803
+
+![bg right:30% w:500](./assets/syn.png)
 
 A tiny **cyanobacterium** — a photosynthetic bacterium.
 
@@ -802,6 +804,117 @@ To disconnect later: type `exit`.
 
 <!-- _class: lead -->
 
+# Part 6 — Extra
+
+going further with the same data
+
+---
+
+## One line, whole proteome
+
+Copy this. Run it (is takes several seconds). Watch biology fall out of plain text:
+
+```
+grep -v "^>" synechocystis.faa | grep -o . | sort | uniq -c | sort -rn
+```
+
+You just counted **every amino acid** in every protein.
+
+Leucine (L) wins — the most common amino acid in almost all life.
+No biology tool. Just five small tools in a row.
+
+We'll unpack the two new ones: `sort` and `uniq`.
+
+---
+
+## sort — put lines in order
+
+```
+sort names.txt              # alphabetical
+sort -n numbers.txt         # numeric (2 before 10)
+sort -r names.txt           # reverse
+sort -rn numbers.txt        # numeric, biggest first
+```
+
+Without `-n`, `sort` is *alphabetical*: it thinks "10" comes before
+"2" (because "1" < "2"). `-n` makes it count like a human.
+
+`-rn` = the classic "top of the chart" combo.
+
+---
+
+## uniq — collapse repeats
+
+`uniq` only sees **adjacent** duplicates — so you almost always
+`sort` first:
+
+```
+sort names.txt | uniq          # unique lines
+sort names.txt | uniq -c       # with a count of each
+sort names.txt | uniq -c | sort -rn   # ranked by frequency
+```
+
+`sort | uniq -c | sort -rn` is one of the most useful patterns in all
+of bash. Count anything, rank it. Log lines, words, amino acids.
+
+---
+
+## sed — find and replace
+
+`sed` edits a stream of text on the way past:
+
+```
+sed 's/old/new/'  file        # first match on each line
+sed 's/old/new/g' file        # every match (g = global)
+echo "hello world" | sed 's/o/0/g'    # hell0 w0rld
+```
+
+Try it on FASTA headers — strip the leading `>`:
+
+```
+grep "^>" synechocystis.faa | sed 's/>//'
+```
+
+Same result as `tr -d '>'`, different tool. Bash always has more than
+one way.
+
+---
+
+## curl & wget — two ways to fetch
+
+You used `wget`. Its cousin `curl` does the same and much more:
+
+```
+wget <url>                    # save file, keep its name
+curl -O <url>                 # save file, keep its name
+curl <url>                    # print to screen instead
+curl -s <url> | grep gene     # fetch and pipe, no file at all
+```
+
+- **wget** — simple downloads, retries, whole sites.
+- **curl** — talking to APIs, piping straight into other tools.
+
+Same job today. Very different when you meet web APIs.
+
+---
+
+## Extra materials for you
+
+<br>
+
+- **regexone.com** — learn regex interactively (powers grep & sed)
+- **explainshell.com** — paste any command, see every flag explained
+- **cmdchallenge.com** — solve puzzles with one-line shell commands
+- **man <command>** — the manual is always one command away
+
+<br>
+
+The terminal rewards curiosity. Go break things.
+
+---
+
+<!-- _class: lead -->
+
 # Appendix — Wrap up
 
 what "done" looks like
@@ -827,6 +940,37 @@ Should read like a small narrative:
 ```
 
 One commit per logical step. That's the goal.
+
+---
+
+## Complete commands (part 1)
+
+Every git command from empty folder to finished history:
+
+```
+git init                                   # 1. start the repo
+git add organism.txt notes.txt             # 2. stage first files
+git commit -m "first notes"                # 3. first snapshot
+
+echo "*.faa"    >  .gitignore              # 4. ignore raw data
+echo "*.faa.gz" >> .gitignore
+git add .gitignore
+git commit -m "ignore raw FASTA"
+```
+
+--- 
+
+## Complete commands (part 2)
+
+```
+git add ribosomal.txt psba.txt all_ids.txt # 5. stage analysis
+git commit -m "analysis: counts and lists"
+
+git add report.md                          # 6. stage the report
+git commit -m "first draft of report"
+
+git log --oneline --graph --all            # 7. admire your work
+```
 
 ---
 
