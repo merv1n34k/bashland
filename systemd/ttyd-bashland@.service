@@ -18,6 +18,7 @@ ExecStart=/usr/local/bin/ttyd \
   --interface 127.0.0.1 \
   --writable \
   --max-clients 500 \
+  --ping-interval 30 \
   --terminal-type xterm-256color \
   --base-path ${BASE_PATH} \
   -t titleFixed=BashLand \
